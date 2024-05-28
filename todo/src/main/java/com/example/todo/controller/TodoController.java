@@ -36,25 +36,16 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<?>createTodo(@AuthenticationPrincipal String userId, @RequestBody TodoDTO dto){
         try{
-            /*POST localhost:8080/todo
-            * {
-            *   "title":"My first todo",
-            *   "done":false
-            * }
-             */
             log.info("Log:createTodo entrance");
 
             //dto를 이용해 테이블에 저장하기 위한 엔티티 생성
             TodoEntity entity=TodoDTO.toEntity(dto);
             log.info("Log:dto => entity ok!");
 
-            //entity userId임시로 지정
-//            entity.setUserId("temporary-user");
             entity.setId(null);
             entity.setUserId(userId);
 
             //service.create를 통해 repository에 entity를 저장한다
-            //이때 넘어오는 값이 없을 수도 있으니 List가 아닌 Optional로 한다
             List<TodoEntity> entities=service.create(entity);
             log.info("Log:service.create ok!");
 
@@ -63,16 +54,6 @@ public class TodoController {
             log.info("Log:entities => dtos ok!");
 
             //Response DTO를 생성
-//            {
-//                "error" : null,
-//                "data":[
-//                {
-//                    "id":"402809817ed71ddf017ed71dfe720000",
-//                    "title":"My first todo",
-//                    "done":false
-//                }]
-//            }
-
             ResponseDTO<TodoDTO> response=ResponseDTO.<TodoDTO>builder().data(dtos).build();
             log.info("Log: responsedto ok!");
 
@@ -98,22 +79,12 @@ public class TodoController {
     @GetMapping("/update")
     public ResponseEntity<?>update(@AuthenticationPrincipal String userId, @RequestBody TodoDTO dto){
         try{
-//            POST localhost:8080/todo/update
-//            {
-//                "id":"???????",
-//                "todo":"Update first todo",
-//                "done":true
-//
-//            }
-
             //dto를 이용해 테이블에 저장하기 위한 entity를 생성한다
             TodoEntity entity = TodoDTO.toEntity(dto);
 
-            //entity userId를 임시로 지정한다.
             entity.setUserId(userId);
 
             //service.create를 통해 repository에 entity를 저장한다
-            //넘어오는 값이 없을수도 -> Optional
             List<TodoEntity> entities = service.update(entity);
 
             //entitie -> dtos로 스트림 변환
@@ -134,17 +105,9 @@ public class TodoController {
     @PutMapping
     public ResponseEntity<?>updateTodo(@AuthenticationPrincipal String userId, @RequestBody TodoDTO dto){
         try {
-//            POST localhost:8080 / todo / update
-//            {
-//                "id":"????????",
-//                "title":"update first todo",
-//                "done":true;
-//            }
-
             //dto를 이용해 테이블에 저장하기 위한 entity를 생성
             TodoEntity entity = TodoDTO.toEntity(dto);
 
-            //entity userId를 임시로 지정
             entity.setUserId(userId);
 
             List<TodoEntity> entities = service.updateTodo(entity);

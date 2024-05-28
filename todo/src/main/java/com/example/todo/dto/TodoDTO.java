@@ -16,11 +16,13 @@ public class TodoDTO {
     private String id;
     private String title;
     private boolean done;
+    private String importance;
 
     public TodoDTO(final TodoEntity entity){
         this.id=entity.getId();
         this.title=entity.getTitle();
         this.done=entity.isDone();
+        this.importance=entity.getImportance();
     }
 
     public static TodoEntity toEntity(final TodoDTO dto){
@@ -28,6 +30,7 @@ public class TodoDTO {
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .done(dto.isDone())
+                .importance(dto.getImportance())
                 .build();
     }
 }
