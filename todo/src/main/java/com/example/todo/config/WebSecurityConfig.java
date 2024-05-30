@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-//import com.example.todo.security.JwtAuthenticationFilter;
+import com.example.todo.security.JwtAuthenticationFilter;
 
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -56,7 +56,10 @@ public class WebSecurityConfig {
                          .requestMatchers(
                                  new AntPathRequestMatcher("/"),
                                  new AntPathRequestMatcher("/auth/**"),
-                                 new AntPathRequestMatcher("/h2-console/**"))
+                                 new AntPathRequestMatcher("/h2-console/**") ,
+                                 new AntPathRequestMatcher("/oauth/**"),  // 카카오 OAuth 경로 허용
+                                 new AntPathRequestMatcher("/oauth2/**"),
+                                 new AntPathRequestMatcher("/oauth/kakao")) // 카카오 리다이렉트 경로 허용
                          .permitAll();
              } catch (Exception e) {
                  e.printStackTrace();
@@ -92,6 +95,7 @@ public class WebSecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
+        config.addAllowedHeader("http://localhost:3000");
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("GET");
