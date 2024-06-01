@@ -2,7 +2,11 @@ package com.example.todo.oauth.persentation;
 
 import com.example.todo.oauth.application.OauthService;
 import com.example.todo.oauth.domain.OauthServerType;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.security.auth.message.AuthException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
@@ -30,19 +34,18 @@ public class OauthController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/login/{oauthServerType}")
-    ResponseEntity<Long> login(
-            @PathVariable OauthServerType oauthServerType,
-            @RequestParam("code") String code
-    ) {
-        Long login = oauthService.login(oauthServerType, code);
-        return ResponseEntity.ok(login);
-    }
-
-//    @GetMapping("/kakao")
-//    ResponseEntity<Void> kakao(HttpServletResponse response) throws IOException {
-//        System.out.println("카카오");
-//        response.sendRedirect("http://localhost:3000/oauth/redirected/kakao");
-//        return ResponseEntity.ok().build();
+//    @GetMapping("/login/{oauthServerType}")
+//    ResponseEntity<Long> login(
+//            @PathVariable OauthServerType oauthServerType,
+//            @RequestParam("code") String code
+//    ) {
+//        Long login = Long.valueOf(oauthService.login(oauthServerType, code));
+//        return ResponseEntity.ok(login);
 //    }
+
+    @GetMapping("/login/{oauthServerType}")
+    public ResponseEntity<String> login(@PathVariable OauthServerType oauthServerType, @RequestParam("code") String code) {
+        String jwt = oauthService.login(oauthServerType, code);
+        return ResponseEntity.ok(jwt);
+    }
 }

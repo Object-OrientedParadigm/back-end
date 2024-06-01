@@ -42,7 +42,6 @@ dependencies {
 	//Http Interface
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	testImplementation 'io.rest-assured:rest-assured:5.3.0'
-
 }
 
 tasks.named('test') {

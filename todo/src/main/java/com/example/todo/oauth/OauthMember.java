@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -29,6 +30,8 @@ import lombok.NoArgsConstructor;
                 ),
         }
 )
+
+@Getter
 public class OauthMember {
 
     @Id
