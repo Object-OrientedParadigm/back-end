@@ -81,4 +81,9 @@ public class TodoService {
             throw new RuntimeException("Unknown user.");
         }
     }
+
+    public void deleteAllByUserId(String userId) {
+        List<TodoEntity> userTodos = repository.findByUserId(userId);
+        repository.deleteAll(userTodos);
+    }
 }
