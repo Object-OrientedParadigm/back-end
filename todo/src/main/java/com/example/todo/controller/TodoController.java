@@ -143,14 +143,19 @@ public class TodoController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-
+    
     @DeleteMapping("/all")
-    public ResponseEntity<?> deleteAllTodos(@RequestParam String userId) {
+    public ResponseEntity<?> deleteAllTodos(@AuthenticationPrincipal String userId) {
         try {
             service.deleteAllByUserId(userId);
             return ResponseEntity.ok().body("All todos deleted successfully.");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            String error = e.getMessage();
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
         }
     }
+
+
+
 }

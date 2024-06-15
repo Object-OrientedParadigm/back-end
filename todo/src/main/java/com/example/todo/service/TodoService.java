@@ -71,6 +71,12 @@ public class TodoService {
         return repository.findByUserId(entity.getUserId());
     }
 
+
+    public void deleteAllByUserId(final String userId) {
+        List<TodoEntity> userTodos = repository.findByUserId(userId);
+        repository.deleteAll(userTodos);
+    }
+
     public void validate(final TodoEntity entity){
         if(entity==null){
             log.warn("Entity cannot be null.");
@@ -80,10 +86,5 @@ public class TodoService {
             log.warn("Unknown user.");
             throw new RuntimeException("Unknown user.");
         }
-    }
-
-    public void deleteAllByUserId(String userId) {
-        List<TodoEntity> userTodos = repository.findByUserId(userId);
-        repository.deleteAll(userTodos);
     }
 }
