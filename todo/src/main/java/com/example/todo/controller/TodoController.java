@@ -143,11 +143,17 @@ public class TodoController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-    
+
     @DeleteMapping("/all")
-    public ResponseEntity<?> deleteAllTodos(@AuthenticationPrincipal String userId) {
+    public ResponseEntity<?> deleteAllTodos(@RequestBody TodoDTO dto, @AuthenticationPrincipal String userId) {
         try {
+            // item으로 넘긴 데이터를 사용
+            TodoEntity entity = TodoDTO.toEntity(dto);
+
+            // entity에 userId를 설정
+            entity.setUserId(userId);
             service.deleteAllByUserId(userId);
+
             return ResponseEntity.ok().body("All todos deleted successfully.");
         } catch (Exception e) {
             String error = e.getMessage();
@@ -155,7 +161,4 @@ public class TodoController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-
-
-
 }

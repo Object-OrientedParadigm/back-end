@@ -51,14 +51,6 @@ public class TodoService {
             repository.save(todo);
         });
 
-//        //위의 람다식과 동일한 표현
-//        if(original.isPresent()){
-//            final TodoEntity todo=original.get();
-//            todo.setTitle(entity.getTitle());
-//            todo.setDone(entity.isDone());
-//            reponsitory.save(todo);
-//        }
-//        return repository.findById(entity.getId());
         return repository.findByUserId(entity.getUserId());
     }
 
@@ -71,11 +63,11 @@ public class TodoService {
         return repository.findByUserId(entity.getUserId());
     }
 
-
     public void deleteAllByUserId(final String userId) {
         List<TodoEntity> userTodos = repository.findByUserId(userId);
         repository.deleteAll(userTodos);
     }
+
 
     public void validate(final TodoEntity entity){
         if(entity==null){
